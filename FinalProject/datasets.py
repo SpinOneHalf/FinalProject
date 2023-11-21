@@ -1,4 +1,4 @@
-import glob
+import pathlib
 import torch
 from torchvision.io import read_image
 from torch.utils.data import Dataset
@@ -6,7 +6,11 @@ from torch.utils.data import Dataset
 class UnlabeldImageDataset(Dataset):
     def __init__(self, img_dir, transform=None, target_transform=None):
         super().__init__()
-        self.imgs_folder = glob.glob(img_dir+"*")
+        imgs_folder = list(pathlib.Path(img_dir).rglob("*"))
+        image_files=[]
+        for folder in imgs_folder:
+            image_files+=list(folder.glob("*png"))
+        self.imgs_folder=image_files
         self.transform = transform
         self.target_transform = target_transform
 

@@ -48,6 +48,5 @@ if __name__=="__main__":
     test_manager=PlotManager()
     for i in range(100):
         test_manager.update_loss(np.random.rand(),i)
-        print("HERE")
         time.sleep(.1)
     del test_manager

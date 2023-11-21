@@ -25,7 +25,7 @@ class DropOut(object):
         tensor[:,index]=0
         return tensor
 device="cuda:0"
-test_=UnlabeldImageDataset("unlabeled_data/")
+test_=UnlabeldImageDataset("unlabeled/")
 net =Autoencoder()
 training_loader=torch.utils.data.DataLoader(test_,batch_size=64,shuffle=True,num_workers=0)
 criterion=nn.MSELoss()
