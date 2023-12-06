@@ -28,9 +28,9 @@ def main():
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    model = SimVP_Model(in_shape=(11, 3, 240, 160))
+    model = SimVP_Model(in_shape=(11, 3, 240, 160), N_T=6, N_S=4, hid_S=64, hid_T=384, spatio_kernel_enc=3, spatio_kernel_dec=3, drop_path=0.1, drop=0.1)
     model.to(device)
-    model.load_state_dict(torch.load('pred_model_checkpoint.pth'))
+    model.load_state_dict(torch.load('pred_model_mid_sgd_200epoch_checkpoint.pth'))
     model.eval()
     with torch.no_grad():
         for inputs, targets in eval_loader:
