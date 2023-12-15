@@ -20,7 +20,7 @@ def main():
         Normalize(mean=mean, std=std)
     ])
 
-    train_dataset = VideoDataset(root_dirs=['Dataset_Student/train', 'Dataset_Student/unlabeled'], transform=transforms, sequence_length=11)
+    train_dataset = VideoDataset(root_dirs=['/Dataset_Student/train', 'Dataset_Student/unlabeled'], transform=transforms, sequence_length=11)
     eval_dataset = VideoDataset(root_dirs=['Dataset_Student/val'], transform=transforms, sequence_length=11)
 
     train_loader = DataLoader(train_dataset, batch_size=16, shuffle=True, num_workers=4)

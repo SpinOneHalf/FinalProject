@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 
-from simvp_modules import ConvSC, GASubBlock
+from FramePrediction.simvp_modules import ConvSC, GASubBlock
 
 
 class SimVP_Model(nn.Module):

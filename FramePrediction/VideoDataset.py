@@ -3,12 +3,14 @@ from torch.utils.data import Dataset
 from torchvision.io import read_image
 import os
 import re
+import numpy as np
 
 class VideoDataset(Dataset):
     def __init__(self, root_dirs, transform=None, sequence_length=11):
         self.transform = transform
         self.sequence_length = sequence_length
         self.frame_paths = []
+        self.mask_paths = []
 
         for root_dir in root_dirs:
             all_dirs = sorted(os.listdir(root_dir))
@@ -26,8 +28,8 @@ class VideoDataset(Dataset):
                 frames = sorted(frames, key=lambda x: int(re.search(r'image_(\d+)\.png', os.path.basename(x)).group(1)))
                 
                 assert len(frames) == 22, f"Expected 22 frames, but found {len(frames)} in {video_dir}"
-                self.frame_paths.append(frames[:22])
-
+                self.frame_paths.append(frames)
+                self.mask_paths.append(os.path.join(video_dir, "mask.npy"))
     def __len__(self):
         return len(self.frame_paths)
 
@@ -36,4 +38,5 @@ class VideoDataset(Dataset):
         target_frames = self.frame_paths[idx][self.sequence_length:]
         input_frames = torch.stack([self.transform(read_image(frame)) for frame in input_frames])
         target_frames = torch.stack([self.transform(read_image(frame)) for frame in target_frames])
-        return input_frames, target_frames
+        mask=np.load(self.mask_paths[idx])[-1]
+        return input_frames,target_frames,mask
